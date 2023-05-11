@@ -1,0 +1,17 @@
+FROM node:18
+WORKDIR /nest-caching-service
+
+# Copia los archivos de la aplicación y los instala
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+ENV PORT=5000
+ENV MS=3001
+
+EXPOSE 3001
+
+EXPOSE 5000
+
+# Inicia la aplicación
+CMD [ "npm", "run", "start" ]

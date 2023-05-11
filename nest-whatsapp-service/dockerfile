@@ -1,0 +1,20 @@
+FROM node:18
+WORKDIR /nest-whatsapp-service
+
+# Copia los archivos de la aplicación y los instala
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+ENV PORT=3000
+ENV PORT_CACHING=3001
+ENV PORT_CACHING_TWO=3002
+ENV PORT_STORING=3003
+
+EXPOSE 3000
+EXPOSE 3001
+EXPOSE 3002
+EXPOSE 3003
+
+# Inicia la aplicación
+CMD [ "npm", "run", "start" ]

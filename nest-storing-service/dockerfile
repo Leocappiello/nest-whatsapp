@@ -1,0 +1,19 @@
+FROM node:18
+WORKDIR /nest-storing-service
+
+# Copia los archivos de la aplicación y los instala
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+ENV DB_URI=mongodb://127.0.0.1:27017
+ENV MS_PORT=3003
+ENV PORT=4000
+
+EXPOSE 4000
+EXPOSE 3001
+EXPOSE 3002
+EXPOSE 3003
+
+# Inicia la aplicación
+CMD [ "npm", "run", "start" ]
