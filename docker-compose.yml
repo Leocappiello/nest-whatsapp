@@ -1,6 +1,5 @@
 version: "3"
 services:
-
   mongo:
     image: mongo:latest
     ports:
@@ -10,36 +9,40 @@ services:
     #network_mode: host
 
   mongo-express:
-      image: mongo-express:latest
-      ports:
-        - "8081:8081"
-      environment:
-        - ME_CONFIG_MONGODB_SERVER=mongo
-        - ME_CONFIG_BASICAUTH_USERNAME=admin
-        - ME_CONFIG_BASICAUTH_PASSWORD=admin
-        - ME_CONFIG_MONGODB_OPTIONS='{"useUnifiedTopology":true}'
-      command: sh -c "sleep 30 && node app"
-      depends_on:
-       - mongo
-      networks:
-        - my-network
-      #network_mode: host
+    image: mongo-express:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
+      - ME_CONFIG_MONGODB_OPTIONS='{"useUnifiedTopology":true}'
+    command: sh -c "sleep 30 && node app"
+    depends_on:
+      - mongo
+    networks:
+      - my-network
+  #network_mode: host
 
-  #caching-service:
-  #  build: ./nest-caching-service
-  #  environment:
-  #    - PORT=5000
-  #    - MS=3001
-  #  ports:
-  #    - "5000:5000"
-  #    - "3001:3001"
-  #  networks:
-  #    - my-network
-  #  #network_mode: host
-  #  restart: always
+  caching-service:
+    build:
+      context: ./nest-caching-service
+      dockerfile: dockerfile
+    environment:
+      - PORT=5000
+      - MS=3001
+    ports:
+      - "5000:5000"
+      - "3001:3001"
+    networks:
+      - my-network
+    #network_mode: host
+    restart: always
 
   storing-service:
-    build: ./nest-storing-service
+    build:
+      context: ./nest-storing-service
+      dockerfile: dockerfile
     environment:
       - DB_URI=mongodb://mongo:27017/mydatabase
       - MS_PORT=3003
@@ -51,15 +54,16 @@ services:
       - my-network
     #network_mode: host
     depends_on:
-    - mongo
-    - mongo-express
+      - mongo
     restart: always
 
   whatsapp-service:
-    build: ./nest-whatsapp-service
+    build:
+      context: ./nest-whatsapp-service
+      dockerfile: dockerfile
     networks:
       - my-network
-    ports: 
+    ports:
       - "3000:3000"
     #network_mode: host
     environment:
@@ -71,6 +75,7 @@ services:
       - mongo
       - storing-service
       #- caching-service
-  
+
 networks:
   my-network:
+    external: false

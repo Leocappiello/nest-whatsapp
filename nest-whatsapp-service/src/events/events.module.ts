@@ -9,6 +9,7 @@ import { EventsService } from './events.service';
         name: 'CACHING-CLIENT',
         transport: Transport.TCP,
         options: {
+          host: 'caching-service',
           port: 3001,
         },
       },
@@ -16,6 +17,7 @@ import { EventsService } from './events.service';
         name: 'STORING-CLIENT',
         transport: Transport.TCP,
         options: {
+          host: 'storing-service',
           port: 3003,
         },
       },
