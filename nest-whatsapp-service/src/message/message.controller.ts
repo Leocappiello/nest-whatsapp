@@ -103,7 +103,6 @@ export class MessageController {
           const messageDto = plainToInstance(MessageReceivedDTO, message);
           const errors = await validate(messageDto);
           if (!errors.length) {
-            console.log('llego al pasrseo');
             try {
               return this.messageService
                 .send('messageReceived', messageDto, 'storing')

@@ -213,7 +213,6 @@ export class MessageService {
       ...dataMessage
     } = message;
 
-    console.log(id);
     if (!(await this.existsById(id))) {
       if (display_phone_number && phone_number_id) {
         if (await this.existsByNumber(from)) {
