@@ -33,7 +33,7 @@ export class MessageService {
   }
 
   handleMessageReceived(data: any) {
-    this.saveMessageReceived(data);
+    return this.saveMessageReceived(data);
   }
 
   handleMessageStatusReceived(data: any) {
